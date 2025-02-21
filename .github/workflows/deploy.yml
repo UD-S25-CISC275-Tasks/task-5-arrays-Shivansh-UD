@@ -52,7 +52,6 @@ jobs:
                   echo "<html><head>\
                   <meta http-equiv='refresh' content='0; URL=${{github.server_url}}/${{github.repository}}' />\
                   </head><body>Redirecting to repository</body></html>" > ./dist/repo.html
-
                   mkdir -p docs
                   cp README.md docs/index.md
                   echo "# Quick Links" > docs/quick-links.md
@@ -137,11 +136,14 @@ jobs:
               uses: actions/configure-pages@v3
               if: ${{ !cancelled() }}
             - name: Upload artifact
-              uses: actions/upload-pages-artifact@v2
+              uses: actions/upload-pages-artifact@main
               if: ${{ !cancelled() }}
               with:
-                  path: "dist/"
+                  name: github-pages
+                  path: dist/
             - name: Deploy to GitHub Pages
               id: deployment
-              uses: actions/deploy-pages@v2
+              uses: actions/deploy-pages@v4
               if: ${{ !cancelled() }}
+              with:
+                  artifact_name: github-pages
